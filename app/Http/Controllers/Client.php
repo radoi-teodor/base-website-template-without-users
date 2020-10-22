@@ -34,75 +34,13 @@ class Client extends Controller
     }
 
     // AUTH
-    public function login(Request $request){
-      if($request->isMethod('post')){
-
-        $validator = Validator::make([
-          'email'=>['required'],
-          'password'=>['required'],
-        ],
-        [
-          '*.required'=>'Fields marked with * are mandatory.',
-        ]);
-
-        if($validator->fails()){
-          return redirect('/login')->withErrors($validator->errors());
-        }
-
-        $email = strval($request->input('email'));
-        $password = strval($request->input('password'));
-
-        if(Auth::attempt(['email'=>$email, 'password'=>$password])){
-          return redirect('/')->with('status', 'Logged in!');
-        }
-
-        return redirect('/login')->with('message', 'Incorrect data');
-
-      }else if($request->isMethod('get')){
-        return view('client.login');
-      }
-    }
-
-    public function register(Request $request){
-      if($request->isMethod('post')){
-        $validator = Validator::make([
-          'email'=>['required'],
-          'password'=>['required'],
-          'agree-policy'=>['required'],
-        ],
-        [
-          '*.required'=>'Fields marked with * are mandatory.',
-        ]);
-
-        $email = strval($request->input('email'));
-        $password = strval($request->input('password'));
-
-        $pos_user = User::where('email', $email)->first();
-        if($pos_user){
-          return redirect('/register')->with('status', 'Email already exists in DB.');
-        }
-
-        $user = User::create([
-          'email'=>$email,
-          'password'=>Hash::make($password),
-        ]);
-
-        Auth::attempt(['email'=>$email, 'password'=>$password]);
-
-        return redirect('/')->with('status', 'Logged in!');
-
-      }if($request->isMethod('get')){
-        return view('client.register');
-      }
-    }
-
     public function logout(){
       Auth::logout();
       return redirect('/')->with('status', 'Logged out');
     }
 
 
-    public function contact_us(Request $request, $permalink=null){
+    public function contact_us(Request $request){
       if($request->isMethod('post')){
 
         $validator = Validator::make($request->all(), [
@@ -122,18 +60,13 @@ class Client extends Controller
         $subject = strval($request->input('subject'));
         $message = strval($request->input('message'));
 
-        $pos_user = User::where('email', $email)->first();
-        $has_account = false;
 
-        if($pos_user)
-          $has_account = true;
 
         $contact_message = new ContactMessage;
         $contact_message->name = $name;
         $contact_message->email = $email;
         $contact_message->subject = $subject;
         $contact_message->message = $message;
-        $contact_message->has_account = $has_account;
 
         $contact_message->save();
 
@@ -141,9 +74,7 @@ class Client extends Controller
 
       }else if($request->isMethod('get')){
 
-        return view('client.contact-us', [
-          'permalink'=>$permalink,
-        ]);
+        return view('client.contact-us');
       }
     }
 
@@ -194,12 +125,7 @@ class Client extends Controller
 
       $blog = Blog::where('permalink', $permalink)->first();
 
-      $blog_comments = BlogComment::where('blog_id', $blog->id)
-                           ->leftJoin('users', 'blog_comments.user_id', '=', 'users.id')
-                           ->get([
-                             'blog_comments.*',
-                             'users.email as user_email',
-                           ]);
+      $blog_comments = BlogComment::where('blog_id', $blog->id)->get();
 
       return view('client.blog.view-blog', [
         'title'=>'Blog: '.$blog->subject,
@@ -214,6 +140,8 @@ class Client extends Controller
       $blog = Blog::where('permalink', $permalink)->first();
 
       $validator = Validator::make($request->all(), [
+        'name' => ['required'],
+        'email' => ['required'],
         'message' => ['required'],
       ]);
 
@@ -222,17 +150,15 @@ class Client extends Controller
         return redirect('/blog/'.$blog->permalink)->withErrors($validator->errors());
       }
 
-      $name = NULL;
-      if($request->has('name') && trim($request->input('name'))!=''){
-        $name = trim($request->input('name'));
-      }
+      $name = trim($request->input('name'));
       $email = trim($request->input('email'));
       $message = trim($request->input('message'));
 
       $blog_comment = new BlogComment;
+      $blog_comment->name = $name;
+      $blog_comment->email = $email;
       $blog_comment->text = $message;
       $blog_comment->blog_id = $blog->id;
-      $blog_comment->user_id = Auth::user()->id;
       $blog_comment->save();
 
       return redirect('/blog/'.$blog->permalink)->with('status', 'Comment added');

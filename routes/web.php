@@ -15,17 +15,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('/', 'Client');
 
-Route::match(['get', 'post'], '/login', 'Client@login')->name('login')->middleware('auth.logged');
-Route::match(['get', 'post'], '/register', 'Client@register')->name('register')->middleware('auth.logged');
-
 Route::get('logout', 'Client@logout');
 
 //BLOGS
 Route::get('/blog', 'Client@blog');
 Route::get('/blog/{permalink}', 'Client@view_blog');
 Route::post('/blog/{permalink}/add-comment', 'Client@add_comment_blog')->middleware('auth');
-Route::get('/blog/{permalink}/delete-comment/{comment_id}', 'Client@delete_comment_blog')->middleware('auth.administrator');
-Route::get('/delete-blog/{id}', 'Client@delete_blog')->middleware('auth.administrator');
+Route::get('/blog/{permalink}/delete-comment/{comment_id}', 'Client@delete_comment_blog')->middleware('auth');
+Route::get('/delete-blog/{id}', 'Client@delete_blog')->middleware('auth');
 
 Route::match(['get', 'post'], '/contact-us', 'Client@contact_us');
 
@@ -36,9 +33,9 @@ Route::get('/privacy-policy', 'Client@privacy_policy');
 
 Route::get('/sitemap.xml', 'Client@sitemap');
 
-Route::match(['get', 'post'], 'administrator', 'Administrator@login')->middleware('auth.administrator.logged');
+Route::match(['get', 'post'], 'administrator', 'Administrator@login')->middleware('auth.logged')->name('login');
 
-Route::prefix('administrator')->middleware('auth.administrator')->group(function () {
+Route::prefix('administrator')->middleware('auth')->group(function () {
 
     Route::get('/statistics', 'Administrator@statistics');
     Route::get('/store-setup', 'Administrator@setup');

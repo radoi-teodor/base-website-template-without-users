@@ -41,13 +41,14 @@
         @foreach ($blog_comments as $comment)
           <li class="card my-1">
             <div class="card-header">
-              <h3><span class="fa fa-user"></span> {{ $comment->user_email }}</h3>
+              <h3><span class="fa fa-user"></span> {{ $comment->name }}</h3>
             </div>
 
             <div class="card-body">
               <p>{!! nl2br(e($comment->text)) !!}</p>
 
-              @if(Auth::check() && Auth::user()->administrator)
+              @if(Auth::check())
+                <p>E-mail: <a class="text-success mb-3" href="mailto:{{ $comment->email }}">{{ $comment->email }}</a></p>
                 <a class="btn btn-danger mb-3" href="{{ url('/blog/'.$blog->permalink.'/delete-comment/'.$comment->id) }}">Delete comment</a>
               @endif
             </div>
@@ -74,9 +75,20 @@
       @if(Auth::check())
         <form action="{{ url('/blog/'.$blog->permalink.'/add-comment') }}" method="post" class="p-5 bg-light">
           @csrf
+
           <div class="form-group">
-            <label for="message">Mesaj *</label>
-            <textarea name="message" id="message" cols="30" rows="10" class="form-control" required></textarea>
+            <label for="name">Name *</label>
+            <input type="text" name="name" id="name" class="form-control" placeholder="Name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">E-mail *</label>
+            <input type="email" name="email" id="email" class="form-control" placeholder="E-mail" required>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message *</label>
+            <textarea name="message" id="message" cols="30" rows="10" placeholder="Message" class="form-control" required></textarea>
           </div>
           <div class="form-group">
             <input type="submit" value="Adaugă comentariu" class="btn py-3 px-4 btn-primary">

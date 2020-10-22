@@ -19,8 +19,6 @@ class CreateContactMessagesTable extends Migration
             $table->string('email');
             $table->string('subject');
             $table->longText('message');
-            $table->integer('product_id')->unsigned()->nullable();
-            $table->boolean('has_account')->default(false);
             $table->boolean('read')->default(false);
             $table->timestamps();
         });

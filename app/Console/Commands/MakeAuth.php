@@ -51,7 +51,6 @@ class MakeAuth extends Command
 
         if($user){
           $user->password = Hash::make($this->password);
-          $user->administrator = true;
           $user->save();
 
           $output->writeln('Existing user editted.');
@@ -60,7 +59,6 @@ class MakeAuth extends Command
           $user = new User;
           $user->email = $this->email;
           $user->password = Hash::make($this->password);
-          $user->administrator = true;
           $user->save();
 
           $output->writeln('User created.');

@@ -42,7 +42,7 @@ class Administrator extends Controller
       $email = strval($request->input('email'));
       $password = strval($request->input('password'));
 
-      if(Auth::attempt(['email'=>$email, 'password'=>$password, 'administrator'=>true])){
+      if(Auth::attempt(['email'=>$email, 'password'=>$password])){
         return redirect('/administrator/statistics')->with('status', 'Logged in!');
       }
 
@@ -322,58 +322,7 @@ class Administrator extends Controller
           $user = new User;
           $user->email = $email;
           $user->password = $password;
-          $user->administrator = true;
           $user->save();
-
-          break;
-
-        case 'make-administrator':
-          $validator = Validator::make($request->all(), [
-            'email' => ['required', 'max:300'],
-          ]);
-
-          if ($validator->fails())
-          {
-            return redirect('/administrator/administrators-manager')->withErrors($validator->errors());
-          }
-
-          $email = strval($request->input('email'));
-          $user = User::where('email', $email)->first();
-
-          if($user==null){
-            return redirect('/administrator/administrators-manager')->with('status', 'This email does not exist. Register the user in register section.');
-          }
-
-          $user->administrator = true;
-          $user->save();
-
-
-          break;
-
-        case 'revoke-administrator':
-          $validator = Validator::make($request->all(), [
-            'email' => ['required', 'max:300'],
-          ]);
-
-          if ($validator->fails())
-          {
-            return redirect('/administrator/administrators-manager')->withErrors($validator->errors());
-          }
-
-          $email = strval($request->input('email'));
-          $user = User::where('email', $email)->first();
-
-          if($user==null){
-            return redirect('/administrator/administrators-manager')->with('status', 'This email does not exist. Register the user in register section.');
-          }
-
-          if($user->id==Auth::user()->id){
-            return redirect('/administrator/administrators-manager')->with('status', 'Cannot revoke logged account.');
-          }
-
-          $user->administrator = false;
-          $user->save();
-
 
           break;
 
@@ -408,7 +357,7 @@ class Administrator extends Controller
 
     }else if($request->isMethod('get')){
 
-      $users = User::where('id', '!=', $user->id)->where('administrator', true)->get();
+      $users = User::where('id', '!=', $user->id)->get();
 
       return view('administrator.administrators-manager', [
         'users'=>$users,

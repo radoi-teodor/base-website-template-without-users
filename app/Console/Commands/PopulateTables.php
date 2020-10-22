@@ -34,7 +34,6 @@ class PopulateTables extends Command
             [
                 'email'=>'radoi.teodor.cristian@gmail.com',
                 'password'=>'$2y$10$.TX2bARFzuqVwPVwbuW27.hKMbnamFyJxk0W4TlITfS4JMcSI3yWi',
-                'administrator'=>true,
             ],
          ],
      );

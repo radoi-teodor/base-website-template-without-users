@@ -6,23 +6,16 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
 
         <ul class="navbar-nav ml-auto">
-
+            @if(\Auth::check())
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                    Account
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                  @if(\Auth::check())
-                    @if(\Auth::user()->administrator)
-                      <a class="dropdown-item" target="_blank" href="{{ url('/administrator') }}">Administrator module</a>
-                    @endif
-                    <a class="dropdown-item" href="{{ url('/logout') }}">Log out</a>
-                  @else
-                    <a class="dropdown-item" href="{{ url('/login') }}">Login</a>
-                    <a class="dropdown-item" href="{{ url('/register') }}">Register</a>
-                  @endif
-                </div>
+              <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                Account
+              </a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="{{ url('/logout') }}">Log out</a>
+              </div>
             </li>
+            @endif
 
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('/blog') }}">Blog</a>

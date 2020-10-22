@@ -39,45 +39,18 @@
             <h2>Contact us</h2>
           </div>
 
-          @if(Auth::check())
-            <div class="col-12">
-              <p class="text-warning">The inputs are filled with your account data. Feel free to change the email or name if you want.</p>
-            </div>
-          @endif
-
-          @php
-            $name = '';
-            $email = '';
-            $subject = '';
-            $message = '';
-
-            if(Auth::check()){
-              $user=Auth::user();
-              $name = $user->name;
-              $email = $user->email;
-            }
-
-            if($permalink!=null){
-              $subject = 'Information about "'.$product->name.'" - #'.$product->id;
-              $message = 'Hi merchant. I would like more information about a product that you are selling: "'.$product->name.'" with SKU: '.$product->id.
-                          '. Thank you. I am waiting for your response.';
-            }
-
-          @endphp
-
-          <input type="hidden" name="product" value="{{ $permalink }}">
 
           <div class="form-group col-12">
-            <input type="text" class="form-control" name="name" placeholder="Your name" value="{{ $name }}" maxlength="300" required>
+            <input type="text" class="form-control" name="name" placeholder="Your name" value="" maxlength="300" required>
           </div>
           <div class="form-group col-12">
-            <input type="text" class="form-control" name="email" placeholder="Your email" value="{{ $email }}" maxlength="300" required>
+            <input type="text" class="form-control" name="email" placeholder="Your email" value="" maxlength="300" required>
           </div>
           <div class="form-group col-12">
-            <input type="text" class="form-control" name="subject" placeholder="Subject" value="{{ $subject }}" maxlength="300" required>
+            <input type="text" class="form-control" name="subject" placeholder="Subject" value="" maxlength="300" required>
           </div>
           <div class="form-group col-12">
-            <textarea cols="30" rows="7" name="message" class="form-control" placeholder="Message" required>{{ $message }}</textarea>
+            <textarea cols="30" rows="7" name="message" class="form-control" placeholder="Message" required></textarea>
           </div>
           <div class="form-group col-12">
             <input type="submit" value="Send" class="btn btn-primary py-3 px-5">

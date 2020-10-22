@@ -69,74 +69,30 @@
 
       <div class="card mt-4">
           <div class="card-body">
-            <h4 class="header-title">Grant administrator privileges for account</h4>
+            <h4 class="header-title">Change password for the logged account</h4>
 
             <form action="/administrator/administrators-manager" autocomplete="off" method="post">
               @csrf
-              <input type="hidden" name="action" value="make-administrator">
+              <input type="hidden" name="action" value="change-password">
 
               <div class="form-group">
-                <label for="password">Email:</label>
-                <input class="form-control" type="text" name="email" placeholder="Email..." maxlength="300" required>
+                <label for="password">Password:</label>
+                <input class="form-control" type="password" name="password" value="" placeholder="Password..." maxlength="300" required>
+              </div>
+
+              <div class="form-group">
+                <label for="repeat-password">Repeat password:</label>
+                <input class="form-control" type="password" name="repeat-password" value="" placeholder="Repeat password..." maxlength="300" required>
               </div>
 
               <div class="submit-btn-area">
-                  <button name="submit" class="btn btn-primary" type="submit">Grant</button>
+                  <button name="submit" class="btn btn-primary" type="submit">Change</button>
               </div>
 
             </form>
 
           </div>
         </div>
-
-        <div class="card mt-4">
-            <div class="card-body">
-              <h4 class="header-title">Revoke administrator privileges for account</h4>
-
-              <form action="/administrator/administrators-manager" autocomplete="off" method="post">
-                @csrf
-                <input type="hidden" name="action" value="revoke-administrator">
-
-                <div class="form-group">
-                  <label for="password">Email:</label>
-                  <input class="form-control" type="text" name="email" placeholder="Email..." maxlength="300" required>
-                </div>
-
-                <div class="submit-btn-area">
-                    <button name="submit" class="btn btn-primary" type="submit">Revoke</button>
-                </div>
-
-              </form>
-
-            </div>
-          </div>
-
-        <div class="card mt-4">
-            <div class="card-body">
-              <h4 class="header-title">Change password for the logged account</h4>
-
-              <form action="/administrator/administrators-manager" autocomplete="off" method="post">
-                @csrf
-                <input type="hidden" name="action" value="change-password">
-
-                <div class="form-group">
-                  <label for="password">Password:</label>
-                  <input class="form-control" type="password" name="password" value="" placeholder="Password..." maxlength="300" required>
-                </div>
-
-                <div class="form-group">
-                  <label for="repeat-password">Repeat password:</label>
-                  <input class="form-control" type="password" name="repeat-password" value="" placeholder="Repeat password..." maxlength="300" required>
-                </div>
-
-                <div class="submit-btn-area">
-                    <button name="submit" class="btn btn-primary" type="submit">Change</button>
-                </div>
-
-              </form>
-
-            </div>
-          </div>
 </div>
 
 
