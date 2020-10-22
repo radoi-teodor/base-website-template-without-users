@@ -72,32 +72,28 @@
     <div class="comment-form-wrap pt-5">
       <h3 class="mb-5">Leave a comment</h3>
 
-      @if(Auth::check())
-        <form action="{{ url('/blog/'.$blog->permalink.'/add-comment') }}" method="post" class="p-5 bg-light">
-          @csrf
+      <form action="{{ url('/blog/'.$blog->permalink.'/add-comment') }}" method="post" class="p-5 bg-light">
+        @csrf
 
-          <div class="form-group">
-            <label for="name">Name *</label>
-            <input type="text" name="name" id="name" class="form-control" placeholder="Name" required>
-          </div>
+        <div class="form-group">
+          <label for="name">Name *</label>
+          <input type="text" name="name" id="name" class="form-control" placeholder="Name" required>
+        </div>
 
-          <div class="form-group">
-            <label for="email">E-mail *</label>
-            <input type="email" name="email" id="email" class="form-control" placeholder="E-mail" required>
-          </div>
+        <div class="form-group">
+          <label for="email">E-mail *</label>
+          <input type="email" name="email" id="email" class="form-control" placeholder="E-mail" required>
+        </div>
 
-          <div class="form-group">
-            <label for="message">Message *</label>
-            <textarea name="message" id="message" cols="30" rows="10" placeholder="Message" class="form-control" required></textarea>
-          </div>
-          <div class="form-group">
-            <input type="submit" value="Adaugă comentariu" class="btn py-3 px-4 btn-primary">
-          </div>
-        </form>
-      @else
-        <h4>You have to be logged to leave a comment. Please <a href="{{ url('/login') }}">Login</a> or
-            <a href="{{ url('/register') }}">Register</a>.</h4>
-      @endif
+        <div class="form-group">
+          <label for="message">Message *</label>
+          <textarea name="message" id="message" cols="30" rows="10" placeholder="Message" class="form-control" required></textarea>
+        </div>
+        <div class="form-group">
+          <input type="submit" value="Add comment" class="btn py-3 px-4 btn-primary">
+        </div>
+      </form>
+
 
     </div>
   </div>

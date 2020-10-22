@@ -142,7 +142,7 @@ class Administrator extends Controller
       ]);
 
       if($validator->fails()){
-        return redirect('/administrator/edit-product')
+        return redirect('/administrator/edit-blog')
              ->withErrors($validator->errors());
       }
 
@@ -231,7 +231,7 @@ class Administrator extends Controller
       ]);
 
       if($validator->fails()){
-        return redirect('/administrator/find-product')
+        return redirect('/administrator/find-blog')
              ->withErrors($validator->errors());
       }
 
@@ -386,14 +386,8 @@ class Administrator extends Controller
   public function save_message(Request $request, $id){
     $message = ContactMessage::find($id);
 
-    $product = null;
-    if($message->product_id){
-      $product = Product::find($message->product_id);
-    }
-
     $pdf = PDF::loadView('pdf.message', [
       'message'=>$message,
-      'product'=>$product,
     ]);
 
     return $pdf->download('messsage-#'.$message->id.'.pdf');
