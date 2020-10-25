@@ -36,7 +36,7 @@ class Administrator extends Controller
       ]);
 
       if($validator->fails()){
-        return redirect('/login')->withErrors($validator->errors());
+        return redirect('/administrator/login')->withErrors($validator->errors());
       }
 
       $email = strval($request->input('email'));
