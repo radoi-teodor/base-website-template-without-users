@@ -279,7 +279,9 @@ class Administrator extends Controller
       $page_count++;
     }
 
-    $messages = $messages->get();
+    $messages = $messages->skip(($page-1)*$messages_per_page)
+                         ->take($messages_per_page)
+                         ->get();
 
     return view('administrator.messages',[
       'messages'=>$messages,
